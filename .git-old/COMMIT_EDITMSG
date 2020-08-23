@@ -1,0 +1,1 @@
+Moved #remove_dups to merge_sort.rb and renamed file to array_management.rb, to keep BST.rb only about the tree. Added #insert and #level_order methods. Continue with deletion and depth-first search.

@@ -23,3 +23,15 @@ def merge_sort(array)
     result
   end
 end
+
+
+def remove_dups(array)
+  result = []
+
+  array.each do |value|
+    unless result.include?(value)
+      result << value
+    end
+  end
+  result
+end
