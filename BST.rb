@@ -1,3 +1,9 @@
+=begin
+Forgive me, this is just here to test if the remote repository is working.
+Git had corrupted locally, and in my search to fix it without recreating it,
+attachment to the remote repository got funky. aka this is a test
+=end
+
 require_relative 'array_management'
 require 'pry'
 
