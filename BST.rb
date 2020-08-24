@@ -60,15 +60,51 @@ class Tree
     end
   end
 
-  def delete(value)
+  #Had help from geeksforgeeks with this instead of solve purely;
+  #no shame in help, just remember you might need to review this
+  def delete(root = @root,  value)
+    return root if root == nil
 
+    if value < root.data
+      root.left = delete(root.left, value)
+    elsif value > root.data
+      root.right = delete(root.right, value)
+    #if this node has the value we're looking for, then we delete it
+    else
+      #node with only one or no child
+      if root.left == nil
+        temp = root.right
+        root = nil
+        return temp
+      elsif root.right == nil
+        temp = root.left
+        root = nil
+        return temp
+      end
+
+      #Node with two children: get Inorder successor (smallest in right subtree)
+      temp = minValueNode(root.right)
+      root.data = temp.data
+      root.right = delete(root.right, temp.data)
+    end
+    return root
+  end
+
+  #for use with #delete, may just combine them, but this is good DRY stuff
+  def minValueNode(node)
+    current = node
+    #loop down to leftmost leaf
+    until current.left == nil
+      current = current.left
+    end
+    return current
   end
 
   def find(root = @root, value)
     if root == nil || root.data == value
       return root
     end
-
+#binding.pry
     if value < root.data
       find(root.left, value)
     else
@@ -143,34 +179,50 @@ class Tree
     result
   end
 
-  #needs work; I HAVE NO IDEA WHAT I'M DOING
-  #I need to understand the problem itself first
-  def height(node = @root, counter = 0)
-    return counter if node.left == nil && node.right == nil
+  #number of edges in longest path from given node to leaf node
+  #in other words: distance from deepest accessable leaf to given node
+  def height(target, current = find(target))
+    #we use -1 here because we need to uncount the pass into a nil reference
+    return -1 if current == nil
 
-    counter += 1
+    left_tree = height(target, current.left)
+    right_tree = height(target, current.right)
 
-    if node.left
-      left = height(node.left, counter)
-    end
+    #IT'S LIKE RECURSIVE FIBONACCI
+    return ([left_tree, right_tree].max)+1
+  end
 
-    if node.right
-      right = height(node.right, counter)
-    end
+  #number of edges from root to given node
+  #in other words: distance from root to given node
+  def depth(target, current = @root, counter = 0)
+    return counter if current.data == target
 
-    if left > right
-      left
-    else
-      right
+    begin
+      if target < current.data
+        counter += 1
+        depth(target, current.left, counter)
+      else
+        counter += 1
+        depth(target, current.right, counter)
+      end
+    rescue
+      puts "[Error] This node does not exist in the tree."
     end
   end
 
   def balanced?
-    difference = (height(@root.left) - height(@root.right)).abs
+    difference = (height(@root.left.data) - height(@root.right.data)).abs
     difference <= 1 ? true : false
+  end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
 end
 
 bst = Tree.new([1, 7, 4, 23, 8, 9, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-p bst.height
+p bst.pretty_print
+p bst.balanced?
