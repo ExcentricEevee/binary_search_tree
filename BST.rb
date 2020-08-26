@@ -1,9 +1,3 @@
-=begin
-Forgive me, this is just here to test if the remote repository is working.
-Git had corrupted locally, and in my search to fix it without recreating it,
-attachment to the remote repository got funky. aka this is a test
-=end
-
 require_relative 'array_management'
 require 'pry'
 
@@ -21,9 +15,9 @@ class Tree
   attr_accessor :root, :temp, :final
 
   def initialize(array)
-    @temp = merge_sort(array)
-    @final = remove_dups(@temp)
-    @root = build_tree(@final, 0, (@final.length-1))
+    array = merge_sort(array)
+    array = remove_dups(array)
+    @root = build_tree(array, 0, (array.length-1))
   end
 
   #returns an array into a balanced binary tree full of Node objectse
@@ -215,6 +209,11 @@ class Tree
     difference <= 1 ? true : false
   end
 
+  def rebalance
+    level_array = inorder
+    @root = build_tree(level_array, 0, (level_array.length)-1)
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -222,7 +221,3 @@ class Tree
   end
 
 end
-
-bst = Tree.new([1, 7, 4, 23, 8, 9, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-p bst.pretty_print
-p bst.balanced?
