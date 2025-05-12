@@ -1,11 +1,6 @@
-require_relative "lib/node"
+require_relative "lib/tree"
 
-n1 = Node.new(1)
-n2 = Node.new(2)
-n3 = Node.new(10)
-n4 = Node.new(-4)
+arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+t = Tree.new(arr)
 
-p n1 < n2
-p n2.between?(n1, n3)
-p n3.between?(n1, n2)
-p [n2, n3, n4, n1].sort
+p t
