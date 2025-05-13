@@ -8,7 +8,7 @@ class Tree
   include Sortable
 
   def initialize(arr)
-    # intentionally removing dups to avoid headaches
+    # removing dups to avoid headaches
     @root = build_tree(merge_sort(arr).uniq)
   end
 
@@ -25,12 +25,11 @@ class Tree
   def build_tree(arr)
     return if arr.empty?
 
-    len = arr.length
-    mid = (len - 1) / 2
+    mid = arr.length / 2
     root = Node.new(arr[mid])
 
-    root.left = build_tree(arr[0..mid - 1]) if (mid - 1).positive?
-    root.right = build_tree(arr[mid + 1..len - 1])
+    root.left = build_tree(arr[0...mid])
+    root.right = build_tree(arr[mid + 1..])
 
     root
   end
