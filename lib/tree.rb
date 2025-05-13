@@ -8,7 +8,14 @@ class Tree
   include Sortable
 
   def initialize(arr)
-    @root = build_tree(arr)
+    # intentionally removing dups to avoid headaches
+    @root = build_tree(merge_sort(arr).uniq)
+  end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
   private
@@ -16,7 +23,18 @@ class Tree
   attr_accessor :root
 
   def build_tree(arr)
-    # intentionally removing dups to avoid headaches
-    merge_sort(arr).uniq
+    return if arr.empty?
+
+    len = arr.length
+    mid = (len - 1) / 2
+    root = Node.new(arr[mid])
+
+    root.left = build_tree(arr[0..mid - 1]) if (mid - 1).positive?
+    root.right = build_tree(arr[mid + 1..len - 1])
+
+    root
   end
 end
+
+# For my convenience:
+# require "pry-byebug";binding.pry
