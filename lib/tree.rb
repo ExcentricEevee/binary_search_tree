@@ -12,6 +12,15 @@ class Tree
     @root = build_tree(merge_sort(arr).uniq)
   end
 
+  def insert(value, root = self.root)
+    return Node.new(value) if root.nil?
+    return root if root.data == value
+
+    value > root.data ? root.right = insert(value, root.right) : root.left = insert(value, root.left)
+
+    root
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
