@@ -5,7 +5,5 @@ t = Tree.new(arr)
 
 puts t.pretty_print
 
-t.insert(2)
-t.insert(24)
-t.insert(60312)
+t.delete(67)
 puts t.pretty_print

@@ -21,6 +21,34 @@ class Tree
     root
   end
 
+  def delete(value, root = self.root)
+    return root if root.nil?
+
+    if value < root.data
+      root.left = delete(value, root.left)
+    elsif value > root.data
+      root.right = delete(value, root.right)
+    else
+      # zero children or only right child
+      return root.right if root.left.nil?
+      # only left child
+      return root.left if root.right.nil?
+
+      # when both children are present
+      succ = get_successor(root)
+      root.data = succ.data
+      root.right = delete(succ.data, root.right)
+    end
+
+    root
+  end
+
+  def get_successor(node)
+    node = node.right
+    node = node.left until node.left.nil?
+    node
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
