@@ -64,6 +64,16 @@ class Tree
     values unless block_given?
   end
 
+  def preorder(node = root, values = [], &block)
+    return if node.nil?
+
+    block_given? ? block.call(node) : values.push(node.data)
+    preorder(node.left, values, &block)
+    preorder(node.right, values, &block)
+
+    values unless block_given?
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"

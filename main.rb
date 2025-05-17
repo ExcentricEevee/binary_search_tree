@@ -5,11 +5,9 @@ t = Tree.new(arr)
 
 puts t.pretty_print
 
-p t.level_order
-
-updated_values = []
-t.level_order do |obj|
-  updated_values.push(obj.data + 1)
+arr = []
+t.preorder do |node|
+  arr.push(node.data + 1)
 end
-
-p updated_values
+p arr
+p t.preorder
