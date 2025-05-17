@@ -43,10 +43,10 @@ class Tree
     root
   end
 
-  def get_successor(node)
-    node = node.right
-    node = node.left until node.left.nil?
-    node
+  def find(value)
+    temp = root
+    temp = value < temp.data ? temp.left : temp.right until temp.nil? || temp.data == value
+    temp
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -69,6 +69,12 @@ class Tree
     root.right = build_tree(arr[mid + 1..])
 
     root
+  end
+
+  def get_successor(node)
+    node = node.right
+    node = node.left until node.left.nil?
+    node
   end
 end
 

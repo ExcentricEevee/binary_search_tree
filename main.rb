@@ -5,5 +5,4 @@ t = Tree.new(arr)
 
 puts t.pretty_print
 
-t.delete(67)
-puts t.pretty_print
+p t.find(0)
