@@ -6,8 +6,6 @@ t = Tree.new(arr)
 puts t.pretty_print
 
 arr = []
-t.preorder do |node|
-  arr.push(node.data + 1)
-end
+t.postorder { |node| arr.push(node.data + 1) }
 p arr
-p t.preorder
+p t.postorder

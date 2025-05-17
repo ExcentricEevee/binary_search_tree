@@ -74,6 +74,26 @@ class Tree
     values unless block_given?
   end
 
+  def inorder(node = root, values = [], &block)
+    return if node.nil?
+
+    inorder(node.left, values, &block)
+    block_given? ? block.call(node) : values.push(node.data)
+    inorder(node.right, values, &block)
+
+    values unless block_given?
+  end
+
+  def postorder(node = root, values = [], &block)
+    return if node.nil?
+
+    postorder(node.left, values, &block)
+    postorder(node.right, values, &block)
+    block_given? ? block.call(node) : values.push(node.data)
+
+    values unless block_given?
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
