@@ -5,4 +5,11 @@ t = Tree.new(arr)
 
 puts t.pretty_print
 
-p t.find(0)
+p t.level_order
+
+updated_values = []
+t.level_order do |obj|
+  updated_values.push(obj.data + 1)
+end
+
+p updated_values
