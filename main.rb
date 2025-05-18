@@ -5,4 +5,5 @@ t = Tree.new(arr)
 
 puts t.pretty_print
 
-p t.height(4)
+p t.depth(3718)
+p t.depth(23)

@@ -101,6 +101,19 @@ class Tree
     get_count(node)
   end
 
+  def depth(value)
+    return if find(value).nil?
+
+    temp = root
+    count = 0
+    until temp.data == value
+      temp = value < temp.data ? temp.left : temp.right
+      count += 1
+    end
+
+    count
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
