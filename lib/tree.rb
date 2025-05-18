@@ -94,6 +94,13 @@ class Tree
     values unless block_given?
   end
 
+  def height(value)
+    node = find(value)
+    return if node.nil?
+
+    get_count(node)
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -120,6 +127,15 @@ class Tree
     node = node.right
     node = node.left until node.left.nil?
     node
+  end
+
+  def get_count(node)
+    # base case; -1 for not counting node you start on
+    return -1 if node.nil?
+
+    left_height = get_count(node.left)
+    right_height = get_count(node.right)
+    [left_height, right_height].max + 1
   end
 end
 

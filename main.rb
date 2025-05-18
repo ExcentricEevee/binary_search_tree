@@ -5,7 +5,4 @@ t = Tree.new(arr)
 
 puts t.pretty_print
 
-arr = []
-t.postorder { |node| arr.push(node.data + 1) }
-p arr
-p t.postorder
+p t.height(4)
