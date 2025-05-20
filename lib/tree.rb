@@ -98,7 +98,7 @@ class Tree
     node = find(value)
     return if node.nil?
 
-    get_count(node)
+    get_height_count(node)
   end
 
   def depth(value)
@@ -112,6 +112,17 @@ class Tree
     end
 
     count
+  end
+
+  def balanced?(node = root)
+    return true if node.nil?
+
+    left = get_height_count(node.left)
+    right = get_height_count(node.right)
+
+    return true if (left - right).abs <= 1 && balanced?(node.left) && balanced?(node.right)
+
+    false
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -142,12 +153,12 @@ class Tree
     node
   end
 
-  def get_count(node)
+  def get_height_count(node)
     # base case; -1 for not counting node you start on
     return -1 if node.nil?
 
-    left_height = get_count(node.left)
-    right_height = get_count(node.right)
+    left_height = get_height_count(node.left)
+    right_height = get_height_count(node.right)
     [left_height, right_height].max + 1
   end
 end
