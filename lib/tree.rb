@@ -125,7 +125,13 @@ class Tree
     false
   end
 
-  def pretty_print(node = @root, prefix = '', is_left = true)
+  def rebalance
+    return if balanced?
+
+    self.root = build_tree(inorder)
+  end
+
+  def pretty_print(node = @root, prefix = "", is_left = true) # rubocop:disable Style/OptionalBooleanParameter
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
@@ -162,6 +168,3 @@ class Tree
     [left_height, right_height].max + 1
   end
 end
-
-# For my convenience:
-# require "pry-byebug";binding.pry
